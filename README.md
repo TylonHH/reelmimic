@@ -120,6 +120,17 @@ Codex reads `AGENTS.md`, so there's nothing else to set up.
 
 ## Settings
 
+### Advanced: model routing
+
+Optionally assign different models/providers to director, builder, reviewer and fixer roles through
+`~/.reelmimic/routing.json`. The normal Claude Code / Codex picker and existing authentication work unchanged without
+this file. Copy [`routing.example.json`](routing.example.json), replace its illustrative model IDs, and follow
+[model routing setup and compatibility limits](docs/MODEL_ROUTING.md). Run `cd app && npm run routing` for local
+diagnostics. Active sessions keep their selected route; automatic provider fallback is deferred to avoid replaying
+partially executed work. Custom Codex endpoints require Responses; Claude gateways require Anthropic format.
+
+### General settings
+
 API keys and a few paths go in `~/.reelmimic/secrets.json`. That file lives outside the repo, so it never gets
 committed. See [`secrets.example.json`](secrets.example.json) for the format.
 
