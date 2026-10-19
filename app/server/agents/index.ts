@@ -11,7 +11,7 @@
 //   { type: 'error', text }                       stderr or a failure
 //
 // The prompt always goes through stdin, so nothing user-typed is ever put on a command line.
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { dirname, join, isAbsolute } from 'node:path';
 import type { Readable } from 'node:stream';
@@ -93,6 +93,7 @@ export function codexArgs(sessionId: string | null | undefined, cwd: string, rou
   // workspace-write to keep the sandbox (planning works; rendering won't). Set via -c: works for exec and resume.
   const mode = process.env.CODEX_SANDBOX || 'danger-full-access';
   const common = ['--json', '--skip-git-repo-check', '-c', `sandbox_mode=${mode}`, '-c', 'approval_policy=never',
+    ...(!route && process.env.CODEX_MODEL ? ['--model', process.env.CODEX_MODEL] : []),
     ...(mode === 'workspace-write' ? ['-c', 'sandbox_workspace_write.network_access=true'] : [])];
   if (route) {
     common.push('--model', route.model);
